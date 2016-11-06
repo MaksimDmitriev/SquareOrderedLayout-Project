@@ -27,19 +27,19 @@ public class SquareOrderedLayout extends ViewGroup {
             final View child = getChildAt(i);
             if (child.getVisibility() != GONE) {
                 measureChildWithMargins(child, widthMeasureSpec, 0, heightMeasureSpec, 0);
-                final LayoutParams lp = (LayoutParams) child.getLayoutParams();
-                maxWidth = Math.max(maxWidth,
-                        child.getMeasuredWidth() + lp.leftMargin + lp.rightMargin);
-                maxHeight = Math.max(maxHeight,
-                        child.getMeasuredHeight() + lp.topMargin + lp.bottomMargin);
+                final LayoutParams childParams = (LayoutParams) child.getLayoutParams();
+                maxWidth += child.getMeasuredWidth() + childParams.leftMargin + childParams.rightMargin;
+                maxHeight += child.getMeasuredHeight() + childParams.topMargin + childParams.bottomMargin;
+
+                final int childMeasuredState = child.getMeasuredState();
                 Log.d(LOG_TAG, "childState=" + childState);
-                Log.d(LOG_TAG, "MeasuredState=" + child.getMeasuredState());
-                childState = combineMeasuredStates(childState, child.getMeasuredState());
+                Log.d(LOG_TAG, "childMeasuredState=" + childMeasuredState);
+                childState = combineMeasuredStates(childState, childMeasuredState);
             }
         }
 
         maxHeight += getPaddingBottom() + getPaddingTop();
-        maxWidth += getPaddingLeft() + getPaddingTop();
+        maxWidth += getPaddingLeft() + getPaddingRight();
 
         maxHeight = Math.max(maxHeight, getSuggestedMinimumHeight());
         maxWidth = Math.max(maxWidth, getSuggestedMinimumWidth());
@@ -54,7 +54,6 @@ public class SquareOrderedLayout extends ViewGroup {
         final int count = getChildCount();
         Log.d(LOG_TAG, "onLayout left=" + left + " top=" + top + " right=" + right + " bottom=" + bottom);
 
-        // TODO: the child view is larger than its parent. how should it handle the case?
         final int parentLeft = left + getPaddingLeft();
         final int parentTop = top + getPaddingTop();
 
@@ -79,11 +78,11 @@ public class SquareOrderedLayout extends ViewGroup {
         }
     }
 
-
     @Override
     protected boolean checkLayoutParams(ViewGroup.LayoutParams p) {
         return p instanceof LayoutParams;
     }
+
 
     @Override
     public ViewGroup.LayoutParams generateLayoutParams(AttributeSet attrs) {
