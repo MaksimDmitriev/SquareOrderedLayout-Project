@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ru.dmitriev.squareorderedlayout.SquareOrderedLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="400dp"
+    android:layout_margin="20dp"
+    android:padding="10dp">
+
+    <!-- put first view to left. -->
+    <View
+        android:id="@+id/view1"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="#f90" />
+
+    <View
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="#9f0" />
+
+    <View
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="#a0f" />
+
+</ru.dmitriev.squareorderedlayout.SquareOrderedLayout>
