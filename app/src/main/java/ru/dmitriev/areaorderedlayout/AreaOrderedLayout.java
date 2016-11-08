@@ -1,4 +1,4 @@
-package ru.dmitriev.squareorderedlayout;
+package ru.dmitriev.areaorderedlayout;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -6,11 +6,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class SquareOrderedLayout extends ViewGroup {
+import java.util.Arrays;
 
-    private static final String LOG_TAG = "SquareOrderedLayout";
+public class AreaOrderedLayout extends ViewGroup {
 
-    public SquareOrderedLayout(Context context, AttributeSet attrs) {
+    private static final String LOG_TAG = "AreaOrderedLayout";
+
+    public AreaOrderedLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -18,11 +20,11 @@ public class SquareOrderedLayout extends ViewGroup {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         Log.d(LOG_TAG, "onMeasure widthMeasureSpec=" + widthMeasureSpec
                 + " heightMeasureSpec=" + heightMeasureSpec);
+
         int count = getChildCount();
         int childState = 0;
         int maxHeight = 0;
         int maxWidth = 0;
-
         for (int i = 0; i < count; i++) {
             final View child = getChildAt(i);
             if (child.getVisibility() != GONE) {
@@ -54,26 +56,32 @@ public class SquareOrderedLayout extends ViewGroup {
         final int count = getChildCount();
         Log.d(LOG_TAG, "onLayout left=" + left + " top=" + top + " right=" + right + " bottom=" + bottom);
 
-        final int parentLeft = left + getPaddingLeft();
-        final int parentTop = top + getPaddingTop();
-
-        int childLeft;
-        int childTop = parentTop;
+        ChildTuple[] childTuples = new ChildTuple[count];
         for (int i = 0; i < count; i++) {
-            final View child = getChildAt(i);
+            childTuples[i] = new ChildTuple(
+                    i,
+                    getChildAt(i).getMeasuredHeight() * getChildAt(i).getMeasuredWidth());
+        }
+        Arrays.sort(childTuples);
+
+        int childTop = getPaddingTop();
+        for (int i = 0; i < count; i++) {
+            final View child = getChildAt(childTuples[i].mIndex);
             if (child.getVisibility() != GONE) {
-                LayoutParams lp = (LayoutParams) child.getLayoutParams();
-                childLeft = parentLeft + lp.leftMargin;
-                childTop += lp.topMargin;
-                final int childBottom = childTop + child.getMeasuredHeight(); // TODO: padding Bottom?
+                LayoutParams childParams = (LayoutParams) child.getLayoutParams();
+                int childLeft = getPaddingLeft() + childParams.leftMargin;
+                childTop += childParams.topMargin;
+                final int childBottom = childTop + child.getMeasuredHeight();
                 final int childRight = childLeft + child.getMeasuredWidth();
-                Log.d(LOG_TAG, "child.layout childLeft=" + childLeft + " childTop=" + childTop
+                Log.d(LOG_TAG, "onLayout left=" + childLeft + " childTop=" + childTop
                         + " childRight=" + childRight + " childBottom=" + childBottom);
                 child.layout(childLeft,
                         childTop,
                         childRight,
                         childBottom);
-                childTop += child.getMeasuredHeight();
+                childTop += (child.getMeasuredHeight() + childParams.bottomMargin);
+            } else {
+                // TODO:
             }
         }
     }
@@ -111,6 +119,22 @@ public class SquareOrderedLayout extends ViewGroup {
 
         public LayoutParams(ViewGroup.LayoutParams source) {
             super(source);
+        }
+    }
+
+    private static final class ChildTuple implements Comparable<ChildTuple> {
+
+        final int mIndex;
+        final int mArea;
+
+        ChildTuple(int index, int area) {
+            mIndex = index;
+            mArea = area;
+        }
+
+        @Override
+        public int compareTo(ChildTuple o) {
+            return o.mArea - mArea;
         }
     }
 }

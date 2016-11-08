@@ -1,4 +1,4 @@
-package ru.dmitriev.squareorderedlayout;
+package ru.dmitriev.areaorderedlayout;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

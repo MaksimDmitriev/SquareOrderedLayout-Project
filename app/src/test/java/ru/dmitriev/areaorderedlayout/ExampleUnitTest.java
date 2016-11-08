@@ -1,4 +1,4 @@
-package ru.dmitriev.squareorderedlayout;
+package ru.dmitriev.areaorderedlayout;
 
 import org.junit.Test;
 
