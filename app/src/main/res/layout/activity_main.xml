@@ -1,50 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ru.dmitriev.areaorderedlayout.AreaOrderedLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/area_ordered_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_margin="40dp"
+    android:padding="5dp">
 
-    <Button
-        android:id="@+id/unhide"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Unhide" />
+    <View
+        android:layout_width="200dp"
+        android:layout_height="20dp"
+        android:layout_margin="10dp"
+        android:background="#9f0"
+        android:padding="5dp" />
 
-    <ru.dmitriev.areaorderedlayout.AreaOrderedLayout
-        android:id="@+id/area_ordered_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="40dp"
-        android:padding="15dp">
+    <View
+        android:layout_width="400dp"
+        android:layout_height="20dp"
+        android:layout_margin="10dp"
+        android:background="#f90"
+        android:padding="5dp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_margin="10dp"
-            android:background="#9f0"
-            android:padding="20dp" />
+    <View
+        android:layout_width="80dp"
+        android:layout_height="20dp"
+        android:layout_margin="10dp"
+        android:background="#aaf"
+        android:padding="5dp" />
 
-        <View
-            android:layout_width="10000dp"
-            android:layout_height="20dp"
-            android:layout_margin="10dp"
-            android:background="#f90"
-            android:padding="20dp" />
-
-        <View
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_margin="10dp"
-            android:background="#a0f" />
-
-        <View
-            android:id="@+id/hidden"
-            android:layout_width="700dp"
-            android:layout_height="100dp"
-            android:layout_margin="10dp"
-            android:background="#bcf"
-            android:visibility="gone" />
-    </ru.dmitriev.areaorderedlayout.AreaOrderedLayout>
-</LinearLayout>
+    <View
+        android:id="@+id/toggled_view"
+        android:layout_width="1000dp"
+        android:layout_height="200dp"
+        android:layout_margin="10dp"
+        android:background="#bcf"
+        android:visibility="gone" />
+</ru.dmitriev.areaorderedlayout.AreaOrderedLayout>
 

@@ -30,13 +30,9 @@ public class AreaOrderedLayout extends ViewGroup {
             if (child.getVisibility() != GONE) {
                 measureChildWithMargins(child, widthMeasureSpec, 0, heightMeasureSpec, 0);
                 final LayoutParams childParams = (LayoutParams) child.getLayoutParams();
-                maxWidth += child.getMeasuredWidth() + childParams.leftMargin + childParams.rightMargin;
+                maxWidth = Math.max(maxWidth, child.getMeasuredWidth() + childParams.leftMargin + childParams.rightMargin);
                 maxHeight += child.getMeasuredHeight() + childParams.topMargin + childParams.bottomMargin;
-
-                final int childMeasuredState = child.getMeasuredState();
-                Log.d(LOG_TAG, "childState=" + childState);
-                Log.d(LOG_TAG, "childMeasuredState=" + childMeasuredState);
-                childState = combineMeasuredStates(childState, childMeasuredState);
+                childState = combineMeasuredStates(childState, child.getMeasuredState());
             }
         }
 
@@ -73,15 +69,13 @@ public class AreaOrderedLayout extends ViewGroup {
                 childTop += childParams.topMargin;
                 final int childBottom = childTop + child.getMeasuredHeight();
                 final int childRight = childLeft + child.getMeasuredWidth();
-                Log.d(LOG_TAG, "onLayout left=" + childLeft + " childTop=" + childTop
+                Log.d(LOG_TAG, "layout left=" + childLeft + " childTop=" + childTop
                         + " childRight=" + childRight + " childBottom=" + childBottom);
                 child.layout(childLeft,
                         childTop,
                         childRight,
                         childBottom);
                 childTop += (child.getMeasuredHeight() + childParams.bottomMargin);
-            } else {
-                // TODO:
             }
         }
     }
